@@ -1,0 +1,28 @@
+{
+  "name": "@tbhaxor/cometchat",
+  "version": "1.0.0",
+  "description": "CometChat REST SDK",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbhaxor/cometchat.git"
+  },
+  "scripts": {
+    "build": "rimraf dist && grunt"
+  },
+  "readme": "https://github.com/tbhaxor/cometchat#readme",
+  "author": "Gurkirat Singh <tbhaxor@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "grunt": "^1.2.1",
+    "grunt-cli": "^1.3.2",
+    "grunt-ts": "^6.0.0-beta.22",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
