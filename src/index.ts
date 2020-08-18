@@ -9,6 +9,9 @@ import {
   IRole,
   IAPIKeyData,
   IRoleData,
+  IMessageParams,
+  IMessages,
+  IMessageDelete,
 } from "./interface";
 
 export class CometChat {
@@ -292,6 +295,54 @@ export class CometChat {
   // >>>>>>>> ROLES ENDS
 
   // <<<<<<<< MESSAGES START
+  public listMessages(
+    params: IMessageParams = {},
+    cb?: ICallback<IMessages>
+  ): Promise<IMessages> {
+    return new Promise<IMessages>((resolve, reject) => {
+      this._axios
+        .get("messages", { params })
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data);
+          } else {
+            resolve(r.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
+
+  public deleteMessage(
+    messageId: string,
+    permanent: boolean = false,
+    cb?: ICallback<IMessageDelete>
+  ): Promise<IMessageDelete> {
+    return new Promise<IMessageDelete>((resolve, reject) => {
+      this._axios
+        .delete(`messages/${messageId}`, { params: { permanent } })
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data.data);
+          } else {
+            resolve(r.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
   // >>>>>>>> MESSAGES ENDS
 
   // <<<<<<<< API KEYS START
