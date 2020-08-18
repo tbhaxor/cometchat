@@ -1,33 +1,37 @@
 export interface IAPIKeys {
-  data: IAPIKeyData[];
+  data: IAPIKey[];
   meta: object;
 }
-
-export interface IAPIKeyData {
+export interface IAPIKey {
   apiKey: string;
   name: string;
   scope: "fullAccess" | "authOnly";
   createdAt: number;
 }
-
-export interface IAPIKeyCreateData {
+export interface IAPIKeyData {
   name: string;
   scope: "authOnly" | "fullAccess";
 }
 
-export interface IAPIKey {
-  data: IAPIKeyData;
+export interface IRoles {
+  data: IRole[];
+  meta: object;
 }
-
-export interface IAPIKeyUpdateData {
-  name?: string;
-  scope?: "userauth" | "admin";
+export interface IRole extends IRoleData {
+  role: string;
+  createdAt?: number;
+}
+export interface IRoleData {
+  name: string;
+  description?: string;
+  metadata?: object;
 }
 
 export interface IError {
   message: string;
   devMessage: string;
   code: string;
+  details?: object;
 }
 
 export interface ICallback<T> {

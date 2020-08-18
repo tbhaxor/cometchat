@@ -4,9 +4,11 @@ import {
   IAPIKeys,
   ICallback,
   IAPIKey,
-  IAPIKeyUpdateData,
   IError,
-  IAPIKeyCreateData,
+  IRoles,
+  IRole,
+  IAPIKeyData,
+  IRoleData,
 } from "./interface";
 
 export class CometChat {
@@ -36,7 +38,7 @@ export class CometChat {
   public listApiKeys(cb?: ICallback<IAPIKeys>): Promise<IAPIKeys> {
     return new Promise<IAPIKeys>((resolve, reject) => {
       this._axios
-        .get<IAPIKeys>("apikeys")
+        .get("apikeys")
         .then((r) => {
           if (cb && typeof cb == "function") {
             cb(null, r.data);
@@ -64,12 +66,12 @@ export class CometChat {
   public getApiKey(key: string, cb?: ICallback<IAPIKey>): Promise<IAPIKey> {
     return new Promise<IAPIKey>((resolve, reject) => {
       this._axios
-        .get<IAPIKey>(`apikeys/${key}`)
+        .get(`apikeys/${key}`)
         .then((r) => {
           if (cb && typeof cb == "function") {
-            cb(null, r.data);
+            cb(null, r.data.data);
           } else {
-            resolve(r.data);
+            resolve(r.data.data);
           }
         })
         .catch((e) => {
@@ -86,23 +88,23 @@ export class CometChat {
    * Update the API Key
    *
    * @param key {string} The API Key to Update
-   * @param data {IAPIKeyUpdateData} The data to update
+   * @param data {IAPIKeyData<"userauth" | "admin">} The data to update
    * @param cb {ICallback<IAPIKey>} The Callback Function
    * @returns {Promise<IAPIKey>} Promise like `IAPIKey`
    */
   public updateApiKey(
     key: string,
-    data: IAPIKeyUpdateData,
+    data: IAPIKeyData,
     cb?: ICallback<IAPIKey>
   ): Promise<IAPIKey> {
     return new Promise<IAPIKey>((resolve, reject) => {
       this._axios
-        .put<IAPIKey>(`apikeys/${key}`, data)
+        .put(`apikeys/${key}`, data)
         .then((r) => {
           if (cb && typeof cb == "function") {
-            cb(null, r.data);
+            cb(null, r.data.data);
           } else {
-            resolve(r.data);
+            resolve(r.data.data);
           }
         })
         .catch((e) => {
@@ -151,12 +153,38 @@ export class CometChat {
    * @returns {Promise<IAPIKey>} Promise like `IAPIKey`
    */
   public createApiKey(
-    data: IAPIKeyCreateData,
+    data: IAPIKeyData,
     cb?: ICallback<IAPIKey>
   ): Promise<IAPIKey> {
     return new Promise<IAPIKey>((resolve, reject) => {
       this._axios
-        .post<IAPIKey>("apikeys", data)
+        .post("apikeys", data)
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data.data);
+          } else {
+            resolve(r.data.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
+  // >>>>>>>> API KEYS ENDS
+
+  // <<<<<<<< USER START
+  // >>>>>>>> USER ENDS
+
+  // <<<<<<<< ROLES START
+  public listRoles(cb?: ICallback<IRoles>): Promise<IRoles> {
+    return new Promise<IRoles>((resolve, reject) => {
+      this._axios
+        .get("roles")
         .then((r) => {
           if (cb && typeof cb == "function") {
             cb(null, r.data);
@@ -173,16 +201,98 @@ export class CometChat {
         });
     });
   }
-  // >>>>>>>> API KEYS ENDS
 
-  // <<<<<<<< API KEYS START
-  // >>>>>>>> API KEYS ENDS
+  public getRole(role: string, cb?: ICallback<IRole>): Promise<IRole> {
+    return new Promise<IRole>((resolve, reject) => {
+      this._axios
+        .get(`roles/${role}`)
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data.data);
+          } else {
+            resolve(r.data.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
 
-  // <<<<<<<< API KEYS START
-  // >>>>>>>> API KEYS ENDS
+  public createRole(data: IRole, cb?: ICallback<IRole>): Promise<IRole> {
+    return new Promise<IRole>((resolve, reject) => {
+      this._axios
+        .post("roles", data)
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data.data);
+          } else {
+            resolve(r.data.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
 
-  // <<<<<<<< API KEYS START
-  // >>>>>>>> API KEYS ENDS
+  public deleteRole(role: string, cb?: (err?: IError) => void): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this._axios
+        .delete(`roles/${role}`)
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null);
+          } else {
+            resolve();
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
+
+  public updateRole(
+    role: string,
+    data: IRoleData,
+    cb?: ICallback<IRole>
+  ): Promise<IRole> {
+    return new Promise<IRole>((resolve, reject) => {
+      this._axios
+        .put(`roles/${role}`, data)
+        .then((r) => {
+          if (cb && typeof cb == "function") {
+            cb(null, r.data.data);
+          } else {
+            resolve(r.data.data);
+          }
+        })
+        .catch((e) => {
+          if (cb && typeof cb == "function") {
+            cb(e.response.data.error);
+          } else {
+            reject(e.response.data.error);
+          }
+        });
+    });
+  }
+  // >>>>>>>> ROLES ENDS
+
+  // <<<<<<<< MESSAGES START
+  // >>>>>>>> MESSAGES ENDS
 
   // <<<<<<<< API KEYS START
   // >>>>>>>> API KEYS ENDS
