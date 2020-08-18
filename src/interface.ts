@@ -1,5 +1,3 @@
-import { SrvRecord } from "dns";
-
 export interface IAPIKeys {
   data: IAPIKey[];
   meta: object;
