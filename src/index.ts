@@ -14,7 +14,7 @@ import {
   IMessageDelete,
 } from "./interface";
 
-export class CometChat {
+export default class CometChat {
   private _axios: AxiosInstance;
 
   constructor(

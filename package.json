@@ -9,7 +9,8 @@
     "url": "https://github.com/tbhaxor/cometchat.git"
   },
   "scripts": {
-    "build": "rimraf dist && grunt"
+    "build": "rimraf dist && grunt",
+    "test": "ts-mocha tests/*.ts"
   },
   "readme": "https://github.com/tbhaxor/cometchat#readme",
   "author": "Gurkirat Singh <tbhaxor@gmail.com>",
